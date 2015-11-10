@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Interactive Solar System Simulation</title>
+  <link rel="stylesheet" type="text/css" href="../css/Task01.css">
+</head>
+
+<body onload="main()">
+  <div id="container">
+    <canvas id="webgl" width="1300" height="650">
+      Please use a browser that supports "canvas"
+    </canvas>
+    <div id="my-gui-container"></div>
+
+    <div id="overlay"></div>
+
+    <div id="popupBox">  
+      <div id="popupContent">
+        <div id="text"></div>
+        <button class="close">Resume</button>
+      </div>
+    </div>
+  </div>
+  <script id="vertex-shader" type="x-shader/x-vertex">    
+    attribute vec4 a_Position;
+    uniform mat4 transformationMatrix;
+    uniform mat4 viewMatrix;
+    uniform mat4 projectionMatrix;
+    attribute vec2 a_TexCoord;
+    varying vec2 v_TexCoord;
+    void
+    main()
+    {
+      gl_Position = projectionMatrix * viewMatrix * transformationMatrix * a_Position;
+      v_TexCoord = a_TexCoord;
+    }
+  </script>
+
+  <script id="fragment-shader" type="x-shader/x-fragment">
+    precision lowp float;
+    uniform sampler2D u_Sampler;
+    varying vec2 v_TexCoord;
+    uniform vec4 color;
+    void main() {
+     gl_FragColor = texture2D(u_Sampler, v_TexCoord)*color;
+   }
+ </script>
+
+ <script src="../lib/webgl-utils.js"></script>
+ <script src="../lib/webgl-debug.js"></script>
+ <script src="../lib/cuon-utils.js"></script>
+ <script src="../lib/initShaders.js"></script>
+ <script src="../lib/flatten.js"></script>
+ <script src="../lib/gl-matrix-min.js"></script>
+ <script src="../lib/jquery.min.js"></script>
+ <script src="../lib/modelVewMatrixStack.js"></script>
+ <script type="text/javascript" src="../lib/dat.gui.min.js"></script>
+ <script src="Task01.js"></script>
+</body>
+</html>
